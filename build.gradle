@@ -2,18 +2,27 @@ plugins {
     id 'application'
     id 'org.jetbrains.kotlin.jvm' version "$kotlin_version"
     id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlin_version"
-	id 'com.github.johnrengelman.shadow' version '7.1.2'
+	id 'com.gradleup.shadow' version '8.3.5'
 }
 
-group "org.kotatsu"
-version "0.0.1"
-mainClassName = "org.kotatsu.ApplicationKt"
-
-def isDevelopment = project.ext.has("development")
-applicationDefaultJvmArgs = ["-Dio.ktor.development=$isDevelopment"]
+group = "org.kotatsu"
+version = "0.0.1"
 
 application {
+	def isDevelopment = project.ext.has("development")
 	mainClass.set('io.ktor.server.netty.EngineMain')
+	applicationDefaultJvmArgs = ["-Dio.ktor.development=$isDevelopment"]
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
+}
+
+kotlin {
+	jvmToolchain {
+		languageVersion = JavaLanguageVersion.of(11)
+	}
 }
 
 repositories {
@@ -32,13 +41,16 @@ dependencies {
 	implementation "io.ktor:ktor-server-status-pages:$ktor_version"
 	implementation "io.ktor:ktor-server-auto-head-response:$ktor_version"
 
+	implementation "io.ktor:ktor-server-metrics-micrometer:$ktor_version"
+	implementation "io.micrometer:micrometer-registry-prometheus:$micrometer_version"
+
     implementation "org.ktorm:ktorm-core:$ktorm_version"
     implementation "org.ktorm:ktorm-support-mysql:$ktorm_version"
-	implementation 'com.mysql:mysql-connector-j:8.0.32'
-    implementation "org.ktorm:ktorm-support-postgresql:$ktorm_version"
-	implementation 'org.postgresql:postgresql:42.7.3'
+	implementation "org.ktorm:ktorm-support-postgresql:$ktorm_version"
+	implementation "com.mysql:mysql-connector-j:$mysqljdbc_version"
+	implementation "org.postgresql:postgresql:$pgjdbc_version"
 
     implementation "ch.qos.logback:logback-classic:$logback_version"
-    testImplementation "io.ktor:ktor-server-tests:$ktor_version"
+    testImplementation "io.ktor:ktor-server-test-host:$ktor_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }

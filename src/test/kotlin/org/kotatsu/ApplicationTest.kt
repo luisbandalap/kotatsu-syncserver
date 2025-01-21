@@ -4,7 +4,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import org.kotatsu.plugins.configureRouting
+import org.kotatsu.plugins.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

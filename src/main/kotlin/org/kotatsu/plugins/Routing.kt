@@ -8,6 +8,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.plugins.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.kotatsu.appMicrometerRegistry
 import org.kotatsu.database
 import org.kotatsu.model.favourite.FavouritesPackage
 import org.kotatsu.model.history.HistoryPackage
@@ -126,6 +127,11 @@ fun Application.configureRouting() {
 			}
 			val manga = database.manga.drop(offset).take(limit).map { it.toManga() }
 			call.respond(manga)
+		}
+		if (appMicrometerRegistry != null) {
+			get("/metrics") {
+				call.respond(appMicrometerRegistry.scrape())
+			}
 		}
 	}
 }
