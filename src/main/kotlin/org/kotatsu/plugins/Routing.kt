@@ -14,5 +14,6 @@ fun Application.configureRouting() {
 		favouriteRoutes()
 		historyRoutes()
 		mangaRoutes()
+		metricsRoutes()
 	}
 }

@@ -35,6 +35,8 @@ dependencies {
 	implementation(libs.hikaricp)
 	implementation(libs.mysql.connector.j)
     implementation(libs.logback.classic)
+	implementation(libs.ktor.micrometer)
+	implementation(libs.micrometer.prometheus)
 	testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
 }
